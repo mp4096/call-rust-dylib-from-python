@@ -28,3 +28,12 @@ pub unsafe extern "C" fn vec_cumsum(arr: *const f64, len: usize) -> *const f64 {
     mem::forget(cumsum);
     ptr_cumsum
 }
+
+#[no_mangle]
+pub unsafe extern "C" fn vec_cumsum_mut(arr: *const f64, out: *mut f64, len: usize) {
+    assert!(!arr.is_null());
+    assert!(!out.is_null());
+    let slice_arr = slice::from_raw_parts(arr, len);
+    let mut slice_out = slice::from_raw_parts_mut(out, len);
+    my_math::vec_cumsum_mut(slice_arr, slice_out);
+}

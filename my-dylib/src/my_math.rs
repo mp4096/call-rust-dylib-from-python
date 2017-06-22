@@ -21,6 +21,21 @@ pub fn vec_cumsum(v: &[f64]) -> Vec<f64> {
         .collect()
 }
 
+pub fn vec_cumsum_mut(v: &[f64], out: &mut [f64]) {
+    assert_eq!(v.len(), out.len());
+
+    // Do the slice dance to avoid bound checking later
+    let len = out.len();
+    let v = &v[..len];
+    let mut out = &mut out[..len];
+
+    let mut acc = 0.0;
+    for i in 0..len {
+        acc += v[i];
+        out[i] = acc;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -54,5 +69,15 @@ mod tests {
 
         let v = vec![1.0, 2.0, 3.0, -10.0];
         assert_eq!(vec_cumsum(&v), vec![1.0, 3.0, 6.0, -4.0]);
+    }
+
+    #[test]
+    fn vec_cumsum_mut() {
+        use super::vec_cumsum_mut;
+
+        let v = vec![1.0, 2.0, 3.0, -10.0];
+        let mut cs = vec![0.0; 4];
+        vec_cumsum_mut(&v, &mut cs);
+        assert_eq!(cs, vec![1.0, 3.0, 6.0, -4.0]);
     }
 }
