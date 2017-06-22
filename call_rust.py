@@ -44,6 +44,7 @@ if __name__ == "__main__":
     print("cumsum([1.1, 1.9, 1.2]) =", vec_cumsum([1.1, 1.9, 1.2]))
 
     # Do some random regression testing
+    thr = np.sqrt(np.finfo(np.float64).eps)
     comparisons = [
         (vec_sum, np.sum),
         (vec_mean, np.mean),
@@ -52,7 +53,7 @@ if __name__ == "__main__":
     for _ in range(100):
         a = np.random.rand(100)
         for f_rust, f_numpy in comparisons:
-            if np.linalg.norm(f_rust(a) - f_numpy(a)) < 1.0e-13:
+            if np.linalg.norm(f_rust(a) - f_numpy(a)) < thr:
                 print(".", end="")
             else:
                 print("x", end="")
