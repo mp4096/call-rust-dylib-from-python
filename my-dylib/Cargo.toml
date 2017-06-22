@@ -1,0 +1,9 @@
+[package]
+name = "my-dylib"
+version = "0.1.0"
+authors = ["Mikhail Pak <mikhail.pak@tum.de>"]
+publish = false
+
+[lib]
+name = "my_dylib"
+crate-type = ["dylib"]
